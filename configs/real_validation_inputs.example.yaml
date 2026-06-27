@@ -1,0 +1,73 @@
+version: 1
+
+required:
+  strategies:
+    - amlrx
+    - iax
+    - ivsf
+    - elc
+  symbols:
+    - BTCUSDT
+    - ETHUSDT
+    - SOLUSDT
+    - XRPUSDT
+    - HYPEUSDT
+  timeframes:
+    - 3m
+    - 5m
+    - 15m
+    - 1h
+
+paths:
+  bybit_ohlcv_root: data/raw/bybit
+  pine_exports_root: data/pine_exports
+  parity_reports_root: reports/parity
+  forward_reports_root: reports/forward
+
+bybit_ohlcv:
+  BTCUSDT:
+    3m: data/raw/bybit/BTCUSDT/3m/BTCUSDT_3m.csv
+    5m: data/raw/bybit/BTCUSDT/5m/BTCUSDT_5m.csv
+    15m: data/raw/bybit/BTCUSDT/15m/BTCUSDT_15m.csv
+    1h: data/raw/bybit/BTCUSDT/1h/BTCUSDT_1h.csv
+  ETHUSDT:
+    3m: data/raw/bybit/ETHUSDT/3m/ETHUSDT_3m.csv
+    5m: data/raw/bybit/ETHUSDT/5m/ETHUSDT_5m.csv
+    15m: data/raw/bybit/ETHUSDT/15m/ETHUSDT_15m.csv
+    1h: data/raw/bybit/ETHUSDT/1h/ETHUSDT_1h.csv
+  SOLUSDT:
+    3m: data/raw/bybit/SOLUSDT/3m/SOLUSDT_3m.csv
+    5m: data/raw/bybit/SOLUSDT/5m/SOLUSDT_5m.csv
+    15m: data/raw/bybit/SOLUSDT/15m/SOLUSDT_15m.csv
+    1h: data/raw/bybit/SOLUSDT/1h/SOLUSDT_1h.csv
+  XRPUSDT:
+    3m: data/raw/bybit/XRPUSDT/3m/XRPUSDT_3m.csv
+    5m: data/raw/bybit/XRPUSDT/5m/XRPUSDT_5m.csv
+    15m: data/raw/bybit/XRPUSDT/15m/XRPUSDT_15m.csv
+    1h: data/raw/bybit/XRPUSDT/1h/XRPUSDT_1h.csv
+  HYPEUSDT:
+    3m: data/raw/bybit/HYPEUSDT/3m/HYPEUSDT_3m.csv
+    5m: data/raw/bybit/HYPEUSDT/5m/HYPEUSDT_5m.csv
+    15m: data/raw/bybit/HYPEUSDT/15m/HYPEUSDT_15m.csv
+    1h: data/raw/bybit/HYPEUSDT/1h/HYPEUSDT_1h.csv
+
+pine_exports:
+  amlrx:
+    BTCUSDT:
+      5m:
+        - data/pine_exports/amlrx/BTCUSDT/5m/amlrx_BTCUSDT_5m_export.csv
+    ETHUSDT:
+      5m:
+        - data/pine_exports/amlrx/ETHUSDT/5m/amlrx_ETHUSDT_5m_export.csv
+  iax:
+    BTCUSDT:
+      5m:
+        - data/pine_exports/iax/BTCUSDT/5m/iax_BTCUSDT_5m_export.csv
+  ivsf:
+    BTCUSDT:
+      5m:
+        - data/pine_exports/ivsf/BTCUSDT/5m/ivsf_BTCUSDT_5m_export.csv
+  elc:
+    BTCUSDT:
+      5m:
+        - data/pine_exports/elc/BTCUSDT/5m/elc_BTCUSDT_5m_export.csv
