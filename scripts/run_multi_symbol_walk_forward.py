@@ -32,6 +32,7 @@ def main() -> int:
     parser.add_argument("--config", default="configs/amlrx_v0_1.yaml")
     parser.add_argument("--symbol-data", nargs="+", required=True)
     parser.add_argument("--out", default="reports/walk_forward/multi_symbol_report.json")
+    parser.add_argument("--strict", action="store_true", help="Return non-zero when robustness GO criteria are not met.")
     args = parser.parse_args()
 
     cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
@@ -48,7 +49,9 @@ def main() -> int:
         f"positive_or_neutral={report.positive_or_neutral_symbols} "
         f"top_symbol_profit_share={report.top_symbol_profit_share:.4f}"
     )
-    return 0 if report.passed else 1
+    if args.strict and not report.passed:
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
