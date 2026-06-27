@@ -1,0 +1,1 @@
+"""Top‑level package for pine‑v6‑forward‑validation."""

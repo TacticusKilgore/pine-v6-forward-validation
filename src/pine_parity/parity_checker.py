@@ -1,20 +1,49 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from typing import Any
 import pandas as pd
 
 
-@dataclass(frozen=True)
-class ParityResult:
-    column: str
-    compared: int
-    mismatches: int
-    max_abs_error: float
-    passed: bool
+def compare_series(a: pd.Series, b: pd.Series, tol: float = 1e-6) -> dict[str, Any]:
+    if len(a) != len(b):
+        raise ValueError("Series must be of same length to compare")
+    mismatches = 0
+    max_error = 0.0
+    for x, y in zip(a, b):
+        if pd.isna(x) and pd.isna(y):
+            continue
+        if pd.isna(x) or pd.isna(y):
+            mismatches += 1
+            continue
+        err = abs(float(x) - float(y))
+        max_error = max(max_error, err)
+        if err > tol:
+            mismatches += 1
+    return {"mismatches": mismatches, "max_error": max_error, "total": len(a)}
 
 
-def compare_series(left: pd.Series, right: pd.Series, column: str, tolerance: float = 1e-8) -> ParityResult:
-    aligned = pd.concat([left.rename("left"), right.rename("right")], axis=1).dropna()
-    diff = (aligned["left"] - aligned["right"]).abs() if not aligned.empty else pd.Series(dtype=float)
-    mismatches = int((diff > tolerance).sum())
-    return ParityResult(column, int(len(aligned)), mismatches, float(diff.max()) if len(diff) else 0.0, mismatches == 0)
+def compare_signals(a: pd.Series, b: pd.Series) -> dict[str, int]:
+    if len(a) != len(b):
+        raise ValueError("Series must be of same length to compare signals")
+    mismatches = sum(0 if ((pd.isna(x) and pd.isna(y)) or (not pd.isna(x) and not pd.isna(y) and int(x) == int(y))) else 1 for x, y in zip(a, b))
+    return {"mismatches": int(mismatches), "total": len(a)}
+
+
+def compare_states(a: pd.Series, b: pd.Series) -> dict[str, int]:
+    if len(a) != len(b):
+        raise ValueError("Series must be of same length to compare states")
+    mismatches = sum(0 if ((pd.isna(x) and pd.isna(y)) or x == y) else 1 for x, y in zip(a, b))
+    return {"mismatches": int(mismatches), "total": len(a)}
+
+
+def parity_check(df_pine: pd.DataFrame, df_python: pd.DataFrame, columns: list[str], tol: float = 1e-6) -> dict[str, Any]:
+    report: dict[str, Any] = {}
+    for col in columns:
+        if col not in df_pine.columns or col not in df_python.columns:
+            report[col] = {"error": "missing column"}
+            continue
+        if pd.api.types.is_numeric_dtype(df_pine[col]):
+            report[col] = compare_series(df_pine[col], df_python[col], tol)
+        else:
+            report[col] = compare_states(df_pine[col], df_python[col])
+    return report
