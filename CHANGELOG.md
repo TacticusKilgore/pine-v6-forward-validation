@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added `docs/autonomous_agent_assignment_v1_0_0.md` as the autonomous implementation assignment for `v1.0.0 = Release-GO Framework`.
+- Added README roadmap section for v1.0.0 release gates.
+- Updated AGENTS.md to reference the active v1.0.0 release assignment.
+
 ## v0.2.0 - Forward-validation hardening
 
 - Added strict OHLCV normalization and data-quality reporting.
