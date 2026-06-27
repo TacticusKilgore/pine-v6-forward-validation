@@ -1,9 +1,12 @@
 import pandas as pd
-from src.pine_parity.mtf import align_higher_timeframe
+
+from src.pine_parity.mtf import confirmed_htf_series, assert_no_future_htf_leak
 
 
-def test_mtf_alignment_previous_confirmed_row():
-    ltf = pd.DataFrame({"timestamp": pd.date_range("2026-01-01", periods=4, freq="5min", tz="UTC")})
-    htf = pd.DataFrame({"timestamp": pd.date_range("2026-01-01", periods=2, freq="15min", tz="UTC"), "x": [1, 2]})
-    out = align_higher_timeframe(ltf, htf, ["x"], confirmed_only=True)
-    assert pd.isna(out.loc[0, "x_htf"])
+def test_confirmed_htf_series_alignment():
+    idx = pd.date_range("2026-01-01", periods=48, freq="5min", tz="UTC")
+    close = pd.Series(range(48), index=idx, dtype="float64")
+    df = pd.DataFrame({"open": close, "high": close + 1, "low": close - 1, "close": close, "volume": 1.0}, index=idx)
+    aligned = confirmed_htf_series(df, "15min", lambda htf: htf["close"], shift_confirmed=True)
+    assert aligned.index.equals(df.index)
+    assert_no_future_htf_leak(df, aligned, "15min")

@@ -1,19 +1,14 @@
 exchange: bybit
-market_type: swap
+market_type: linear_perpetual
 quote: USDT
 symbols:
-  - id: BTCUSDT
-    ccxt: BTC/USDT:USDT
-    priority: core
-  - id: ETHUSDT
-    ccxt: ETH/USDT:USDT
-    priority: core
-  - id: SOLUSDT
-    ccxt: SOL/USDT:USDT
-    priority: core
-  - id: XRPUSDT
-    ccxt: XRP/USDT:USDT
-    priority: validation
-  - id: HYPEUSDT
-    ccxt: HYPE/USDT:USDT
-    priority: validation
+  - BTCUSDT
+  - ETHUSDT
+  - SOLUSDT
+  - XRPUSDT
+  - HYPEUSDT
+timeframes:
+  regime: 1h
+  bias: 15m
+  setup: 5m
+  trigger: 3m

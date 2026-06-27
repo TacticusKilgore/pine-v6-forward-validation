@@ -1,17 +1,34 @@
 validation:
-  regime_timeframe: 1h
-  bias_timeframe: 15m
-  setup_timeframe: 5m
-  trigger_timeframe: 3m
-  follow_through_bars: [3, 5, 10]
-  train_bars: 5000
-  test_bars: 1000
-  step_bars: 1000
-costs:
-  maker_fee_bps: 2.0
-  taker_fee_bps: 5.5
-  slippage_bps: 2.0
-safety:
-  confirmed_htf_only: true
-  forbid_centered_rolling: true
-  forbid_negative_shift_features: true
+  confirmed_bar_only: true
+  allow_lookahead: false
+  allow_centered_windows: false
+  timezone: UTC
+  fee_bps_per_side: 6.0
+  slippage_bps_per_side: 2.0
+  default_timeout_bars: 24
+  min_trades_total: 80
+  min_profitable_symbols: 3
+  max_top_symbol_profit_share: 0.45
+  score_weights:
+    forward_expectancy: 0.25
+    cross_symbol_stability: 0.20
+    drawdown_control: 0.15
+    parameter_neighborhood_stability: 0.15
+    trade_count_adequacy: 0.10
+    long_short_balance: 0.10
+    session_regime_consistency: 0.05
+walk_forward:
+  scalp:
+    train_days: 45
+    validation_days: 15
+    forward_days: 10
+    step_days: 10
+  intraday:
+    train_days: 90
+    validation_days: 30
+    forward_days: 15
+    step_days: 15
+parity:
+  score_tolerance: 0.000001
+  price_tolerance_bps: 1.0
+  require_signal_bar_match: true

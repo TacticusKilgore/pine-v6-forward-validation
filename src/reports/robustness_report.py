@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from pathlib import Path
+import pandas as pd
 
 
-def write_robustness_report(rows: list[dict], out: str | Path) -> Path:
-    path = Path(out)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("# Robustness Report\n\n" + repr(rows) + "\n", encoding="utf-8")
-    return path
+def summarize_by_side(trades: pd.DataFrame) -> pd.DataFrame:
+    if trades.empty:
+        return pd.DataFrame()
+    return trades.groupby("side")["net_r"].agg(["count", "mean", "median", "sum"])

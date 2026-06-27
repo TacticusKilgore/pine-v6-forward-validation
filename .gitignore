@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+data/raw/*.csv
+data/processed/*.csv
+data/pine_exports/*.csv
+reports/**/*.csv
+reports/**/*.json
+reports/**/*.txt
+.env
+.DS_Store

@@ -1,22 +1,31 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pine-v6-forward-validation"
-version = "0.1.0"
-description = "Forward validation and Pine-v6 parity harness for crypto perpetual strategy research."
-readme = "README.md"
+version = "0.2.0"
+description = "Pine v6 parity, walk-forward and forward-validation harness for Bybit crypto perpetual strategies"
 requires-python = ">=3.10"
-dependencies = ["numpy>=1.24", "pandas>=2.0", "PyYAML>=6.0"]
+authors = [{name = "Tacticus Kilgore"}]
 
-[project.optional-dependencies]
-dev = ["pytest>=8.0"]
-live = ["ccxt>=4.0"]
-replay = ["backtrader>=1.9"]
-optimizer = ["vectorbt>=0.26"]
+[tool.setuptools]
+packages = [
+  "src",
+  "src.data",
+  "src.pine_parity",
+  "src.strategies",
+  "src.engine",
+  "src.optimizers",
+  "src.replay",
+  "src.reports"
+]
 
 [tool.pytest.ini_options]
-addopts = "-q"
-pythonpath = ["."]
 testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
