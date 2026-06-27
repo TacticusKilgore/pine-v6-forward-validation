@@ -6,6 +6,13 @@
 - Added README roadmap section for v1.0.0 release gates.
 - Updated AGENTS.md to reference the active v1.0.0 release assignment.
 
+## v0.3.0 - Real data and export contract gates
+
+- Added OHLCV data quality report gate.
+- Added Pine diagnostic export schema contract gate.
+- Added CLI smoke commands for data quality and export schema checks.
+- Extended CI with R1/R2 smoke checks.
+
 ## v0.2.1 - CI packaging hardening
 
 - Added runtime dependencies to `pyproject.toml` so editable installs work in clean environments.
