@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added `docs/release_go_map.md` to track v1.0.0 GO/SOFT-GO/HOLD status and external evidence blockers.
+- Added strict Bybit OHLCV schema validator and tests.
+- Added strict Pine diagnostic export schema validator and tests.
+- Documented schema validators and release map in README.
 - Added `docs/autonomous_agent_assignment_v1_0_0.md` as the autonomous implementation assignment for `v1.0.0 = Release-GO Framework`.
 - Added README roadmap section for v1.0.0 release gates.
 - Updated AGENTS.md to reference the active v1.0.0 release assignment.
