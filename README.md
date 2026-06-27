@@ -4,58 +4,31 @@ Production-oriented validation harness for Pine Script v6 trading projects.
 
 ## Mission
 
-This repository validates TradingView/Pine-v6 strategy and indicator projects with a Python workflow that separates:
+This repository validates TradingView / Pine-v6 strategy and indicator projects with a Python workflow that separates Pine signal parity, repaint / future-leak checks, walk-forward validation, parameter robustness, event replay and forward shadow reconciliation.
 
-1. Pine signal parity
-2. Repaint / future-leak checks
-3. Walk-forward validation
-4. Parameter robustness
-5. Event-based trade replay
-6. Forward shadow logging
+Target market: Bybit USDT perpetuals.
 
-The target market is Bybit USDT perpetuals, with the default stack:
+Default stack:
 
 - Regime: 1h
 - Bias: 15m
 - Setup: 5m
 - Trigger: 3m
 
-## Method Decision
-
-| Layer | Tool | Role |
-|---|---|---|
-| Pine reference | TradingView Pine v6 | Source of truth for visual/signal logic |
-| Parity | Custom Python harness | Bar-exact signal reproduction |
-| Optimization | vectorbt / grid search | Parameter sweeps and robustness maps |
-| Event replay | Backtrader adapter | Secondary order-lifecycle check |
-| Forward | TradingView + Python shadow logger | Live/replay signal reconciliation |
-| HFT / LOB | hftbacktest | Separate stack for GLFT / queue / market making |
-
 ## Current Version
 
-`v0.2.1` hardens the initial scaffold into a usable local validation base and fixes clean CI/package installation:
-
-- strict OHLCV schema normalization
-- data-quality reporting
-- no-future-leak / prefix-stability checks
-- stricter Pine diagnostic parity checker
-- frozen-parameter walk-forward evaluation
-- JSON report writer
-- deterministic sample data generator
-- richer robustness metrics including long/short split
-- clean `pip install -e ".[dev]"` support for GitHub Actions
-
-## v1.0.0 Release-GO Roadmap
-
-The v1.0.0 target is a release gate framework that returns one of four decisions for a Pine-v6 project: `GO`, `SOFT-GO`, `HOLD`, or `NO-GO`.
-
-The autonomous implementation assignment is tracked in:
+`v1.0.0` provides a Release-GO Framework. It can produce a clear project decision:
 
 ```text
-docs/autonomous_agent_assignment_v1_0_0.md
+GO
+SOFT-GO
+HOLD
+NO-GO
 ```
 
-v1.0.0 must include these gates:
+The framework intentionally returns `HOLD` when critical real-world inputs are missing, such as TradingView diagnostic exports or real forward reconciliation data.
+
+## Implemented Gates
 
 - Data Quality Gate
 - Pine Diagnostic Export Gate
@@ -63,7 +36,8 @@ v1.0.0 must include these gates:
 - No-Future-Leak / Repaint Gate
 - MTF Confirmed-Bar Gate
 - Walk-forward Gate
-- Robustness Gate
+- Multi-Symbol Robustness Gate
+- Forward Reconciliation Gate
 - Release Decision Gate
 - CI Gate
 - Documentation Gate
@@ -82,64 +56,58 @@ v1.0.0 must include these gates:
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 pytest -q
 ```
 
-Clean editable install:
-
-```bash
-pip install -e ".[dev]"
-```
+## Core Commands
 
 Create deterministic sample data:
 
 ```bash
-python scripts/make_sample_data.py \
-  --rows 3500 \
-  --out data/processed/sample_BTCUSDT_5m.csv
+python scripts/make_sample_data.py --rows 3500 --out data/processed/sample_BTCUSDT_5m.csv
 ```
 
-Run a no-future-leak / prefix-stability check:
+Run no-future-leak check:
 
 ```bash
-python scripts/run_no_future_leak_check.py \
-  --data data/processed/sample_BTCUSDT_5m.csv \
-  --strategy amlrx \
-  --config configs/amlrx_v0_1.yaml \
-  --warmup-bars 250
+python scripts/run_no_future_leak_check.py --data data/processed/sample_BTCUSDT_5m.csv --strategy amlrx --config configs/amlrx_v0_1.yaml --warmup-bars 250
 ```
 
-Run a parity check against a TradingView diagnostic export:
+Run data quality gate:
 
 ```bash
-python scripts/run_parity_check.py \
-  --pine-export data/pine_exports/example_export.csv \
-  --strategy amlrx \
-  --config configs/amlrx_v0_1.yaml
+python scripts/run_data_quality.py --data data/processed/sample_BTCUSDT_5m.csv --symbol BTCUSDT --timeframe 5m --out reports/data_quality/sample_BTCUSDT_5m.json
+```
+
+Run export schema gate:
+
+```bash
+python scripts/run_export_schema_check.py --csv data/pine_exports/example_export_contract.csv --out reports/parity/example_export_schema.json
+```
+
+Run parity check:
+
+```bash
+python scripts/run_parity_check.py --pine-export data/pine_exports/example_export.csv --strategy amlrx --config configs/amlrx_v0_1.yaml
 ```
 
 Run walk-forward validation:
 
 ```bash
-python scripts/run_walk_forward.py \
-  --data data/processed/sample_BTCUSDT_5m.csv \
-  --strategy amlrx \
-  --config configs/amlrx_v0_1.yaml \
-  --train-days 45 \
-  --validation-days 15 \
-  --forward-days 10 \
-  --step-days 10 \
-  --report-out reports/walk_forward/latest_walk_forward.json
+python scripts/run_walk_forward.py --data data/processed/sample_BTCUSDT_5m.csv --strategy amlrx --config configs/amlrx_v0_1.yaml --report-out reports/walk_forward/latest_walk_forward.json
 ```
 
-Run a basic grid search:
+Run optimizer:
 
 ```bash
-python scripts/run_optimizer.py \
-  --data data/processed/sample_BTCUSDT_5m.csv \
-  --strategy amlrx \
-  --config configs/amlrx_v0_1.yaml
+python scripts/run_optimizer.py --data data/processed/sample_BTCUSDT_5m.csv --strategy amlrx --config configs/amlrx_v0_1.yaml
+```
+
+Run release gate:
+
+```bash
+python scripts/run_release_gate.py --json-out reports/release/release_decision.json --md-out reports/release/release_decision.md
 ```
 
 ## Pine Diagnostic Export Contract
@@ -180,41 +148,16 @@ configs/       YAML configuration for symbols, models and validation defaults
 data/          raw candles, processed candles and TradingView diagnostic exports
 docs/          release assignments, specs and implementation roadmaps
 src/data/      OHLCV loading, schema validation and resampling
-src/pine_parity/ Pine-compatible indicators, rolling logic, MTF, parity and future-leak checks
+src/pine_parity/ Pine-compatible indicators, MTF, parity and future-leak checks
 src/strategies/ Python mirrors of Pine projects
 src/engine/    signal, trade, cost, walk-forward and robustness engines
 src/optimizers/ vectorbt and grid-search wrappers
-src/replay/    Backtrader control replay adapter
-src/reports/   JSON, summary, robustness and parity reports
-tests/         regression checks for no future leak, MTF alignment and execution logic
-scripts/       runnable CLI entry points
+src/replay/    Backtrader adapter and forward reconciliation
+src/reports/   JSON, Markdown and release decision reports
+tests/         regression checks
+scripts/       CLI entry points
 ```
 
-## Release Gate
+## Release Requirement
 
-A v6 project is forward-validation ready only when:
-
-- Pine compiles without errors.
-- Diagnostic export exists.
-- Python harness reproduces Pine signals bar-exactly.
-- MTF alignment is confirmed-bar safe.
-- Prefix-stability / future-leak check passes.
-- Walk-forward windows pass without parameter refit.
-- At least five Bybit perps are tested separately.
-- Long and short behavior is reported separately.
-- Parameter neighborhood stability is acceptable.
-- TradingView forward signals and Python shadow signals reconcile.
-
-## Validation Status
-
-Local smoke gate used for this repo state:
-
-```text
-pytest -q
-10 passed
-
-python -m compileall -q src scripts
-
-python scripts/run_no_future_leak_check.py ...
-passed=True checked_cutoffs=5 mismatches=0
-```
+A project is release-ready only when all critical gates pass. If Pine exports, real Bybit data, or forward reconciliation evidence are missing, the correct decision is `HOLD`, not `GO`.
