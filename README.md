@@ -150,6 +150,17 @@ EXP_shortSignal
 
 Python parity is valid only when signal time, direction, state, score and levels match within configured tolerances.
 
+## Schema Validators
+
+Additional strict schema helpers are available for direct use in tests or scripts:
+
+```python
+from src.data.bybit_schema import validate_bybit_ohlcv
+from src.data.pine_export_schema import validate_pine_export
+```
+
+These validators enforce timestamp ordering, duplicate detection, required columns and basic type/value constraints before data is used in parity or forward-validation reports.
+
 ## Repository Layout
 
 ```text
@@ -166,6 +177,16 @@ src/reports/   JSON, Markdown and release decision reports
 tests/         regression checks
 scripts/       CLI entry points
 ```
+
+## Release GO Map
+
+The release status is tracked in:
+
+```text
+docs/release_go_map.md
+```
+
+This map distinguishes framework-complete gates from external evidence blockers. The correct decision remains `HOLD` while real TradingView exports and real or locally validated Bybit/OOS evidence are missing.
 
 ## Release Requirement
 
