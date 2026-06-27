@@ -6,6 +6,15 @@
 - Added README roadmap section for v1.0.0 release gates.
 - Updated AGENTS.md to reference the active v1.0.0 release assignment.
 
+## v1.0.0 - Release-GO Framework
+
+- Added release decision engine with GO, SOFT-GO, HOLD and NO-GO states.
+- Added `scripts/run_release_gate.py`.
+- Added JSON and Markdown release decision outputs.
+- Added default framework gate map.
+- Added regression tests for release decisions.
+- Extended CI with release gate smoke check.
+
 ## v0.5.0 - Forward shadow reconciliation
 
 - Added timestamp and direction reconciliation for Pine exports and Python shadow outputs.

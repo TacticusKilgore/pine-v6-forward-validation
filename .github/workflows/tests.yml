@@ -58,3 +58,6 @@ jobs:
 
       - name: Run forward reconciliation smoke check
         run: python scripts/run_forward_reconciliation.py --pine-export data/pine_exports/example_export_contract.csv --shadow-output data/pine_exports/example_export_contract.csv --out reports/forward/reconciliation_report.json --strict
+
+      - name: Run release gate smoke check
+        run: python scripts/run_release_gate.py --json-out reports/release/release_decision.json --md-out reports/release/release_decision.md
