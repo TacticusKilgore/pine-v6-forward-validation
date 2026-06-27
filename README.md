@@ -110,6 +110,15 @@ Run release gate:
 python scripts/run_release_gate.py --json-out reports/release/release_decision.json --md-out reports/release/release_decision.md
 ```
 
+Run CI evidence smoke commands locally:
+
+```bash
+python scripts/run_real_input_manifest_check.py --manifest configs/real_validation_inputs.example.yaml --json-out reports/release/real_input_manifest_example.json
+python scripts/run_pine_export_evidence.py --manifest configs/real_validation_inputs.example.yaml --json-out reports/parity/pine_export_evidence_example.json --md-out reports/parity/pine_export_evidence_example.md
+python scripts/run_real_parity_evidence.py --pine-export data/pine_exports/example_export_contract.csv --python-output data/pine_exports/example_export_contract.csv --strategy fixture --symbol BTCUSDT --timeframe 5m --json-out reports/parity/fixture_parity_evidence.json --md-out reports/parity/fixture_parity_evidence.md
+python scripts/run_forward_validation_evidence.py --input data/fixtures/forward_validation_fixture.csv --strategy fixture --symbol BTCUSDT --timeframe 5m --horizons 3 5 10 --json-out reports/forward/fixture_forward_evidence.json --md-out reports/forward/fixture_forward_evidence.md
+```
+
 ## Pine Diagnostic Export Contract
 
 Each Pine-v6 project should export at least these fields where possible:
