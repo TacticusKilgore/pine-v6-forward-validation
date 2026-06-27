@@ -53,6 +53,18 @@ jobs:
       - name: Run export schema smoke check
         run: python scripts/run_export_schema_check.py --csv data/pine_exports/example_export_contract.csv --out reports/parity/example_export_schema.json
 
+      - name: Run real input manifest smoke check
+        run: python scripts/run_real_input_manifest_check.py --manifest configs/real_validation_inputs.example.yaml --json-out reports/release/real_input_manifest_example.json
+
+      - name: Run Pine export evidence smoke check
+        run: python scripts/run_pine_export_evidence.py --manifest configs/real_validation_inputs.example.yaml --json-out reports/parity/pine_export_evidence_example.json --md-out reports/parity/pine_export_evidence_example.md
+
+      - name: Run real parity evidence smoke check
+        run: python scripts/run_real_parity_evidence.py --pine-export data/pine_exports/example_export_contract.csv --python-output data/pine_exports/example_export_contract.csv --strategy fixture --symbol BTCUSDT --timeframe 5m --json-out reports/parity/fixture_parity_evidence.json --md-out reports/parity/fixture_parity_evidence.md
+
+      - name: Run forward validation evidence smoke check
+        run: python scripts/run_forward_validation_evidence.py --input data/fixtures/forward_validation_fixture.csv --strategy fixture --symbol BTCUSDT --timeframe 5m --horizons 3 5 10 --json-out reports/forward/fixture_forward_evidence.json --md-out reports/forward/fixture_forward_evidence.md
+
       - name: Run multi-symbol robustness smoke check
         run: python scripts/run_multi_symbol_walk_forward.py --strategy amlrx --config configs/amlrx_v0_1.yaml --symbol-data BTCUSDT=data/processed/sample_BTCUSDT_5m.csv ETHUSDT=data/processed/sample_ETHUSDT_5m.csv SOLUSDT=data/processed/sample_SOLUSDT_5m.csv XRPUSDT=data/processed/sample_XRPUSDT_5m.csv HYPEUSDT=data/processed/sample_HYPEUSDT_5m.csv --out reports/walk_forward/multi_symbol_report.json
 
