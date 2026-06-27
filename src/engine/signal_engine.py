@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from importlib import import_module
 import pandas as pd
 
-MODULES = {"amlrx": "src.strategies.amlrx", "iax": "src.strategies.iax", "ivsf": "src.strategies.ivsf", "elc": "src.strategies.elc"}
+from src.strategies.registry import build_strategy
 
 
-def run_strategy(df: pd.DataFrame, strategy: str, config: dict | None = None) -> pd.DataFrame:
-    if strategy not in MODULES:
-        raise ValueError(f"Unknown strategy: {strategy}")
-    return import_module(MODULES[strategy]).generate_signals(df, config)
+def run_signal_engine(df: pd.DataFrame, strategy_name: str, config: dict) -> pd.DataFrame:
+    strategy = build_strategy(strategy_name, config)
+    return strategy.run(df)

@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 
-def write_summary_report(summary: dict, out: str | Path) -> Path:
-    path = Path(out)
+def write_json_report(payload: dict, path: str | Path) -> None:
+    path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(["# Summary Report", "", *[f"- **{k}**: {v}" for k, v in summary.items()]]) + "\n", encoding="utf-8")
-    return path
+    path.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
