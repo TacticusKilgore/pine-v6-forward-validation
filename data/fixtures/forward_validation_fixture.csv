@@ -1,0 +1,13 @@
+timestamp,open,high,low,close,volume,EXP_longSignal,EXP_shortSignal,EXP_score,regime
+2026-01-01T00:00:00Z,100,101,99,100,10,false,false,0,range
+2026-01-01T00:05:00Z,100,102,99,101,11,true,false,70,trend
+2026-01-01T00:10:00Z,101,103,100,102,12,false,false,0,trend
+2026-01-01T00:15:00Z,102,104,101,103,13,false,false,0,trend
+2026-01-01T00:20:00Z,103,105,102,104,14,false,false,0,trend
+2026-01-01T00:25:00Z,104,106,103,105,15,false,false,0,trend
+2026-01-01T00:30:00Z,105,106,103,104,16,false,true,65,range
+2026-01-01T00:35:00Z,104,105,102,103,17,false,false,0,range
+2026-01-01T00:40:00Z,103,104,101,102,18,false,false,0,range
+2026-01-01T00:45:00Z,102,103,100,101,19,false,false,0,range
+2026-01-01T00:50:00Z,101,102,99,100,20,false,false,0,range
+2026-01-01T00:55:00Z,100,101,98,99,21,false,false,0,range
