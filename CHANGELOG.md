@@ -6,6 +6,14 @@
 - Added README roadmap section for v1.0.0 release gates.
 - Updated AGENTS.md to reference the active v1.0.0 release assignment.
 
+## v0.5.0 - Forward shadow reconciliation
+
+- Added timestamp and direction reconciliation for Pine exports and Python shadow outputs.
+- Added `scripts/run_forward_reconciliation.py`.
+- Added reconciliation JSON report output.
+- Added regression tests for matching and mismatched signal directions.
+- Extended CI with forward reconciliation smoke check.
+
 ## v0.4.0 - Multi-symbol walk-forward robustness
 
 - Added multi-symbol evaluation report with symbol split.
