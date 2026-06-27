@@ -6,6 +6,14 @@
 - Added README roadmap section for v1.0.0 release gates.
 - Updated AGENTS.md to reference the active v1.0.0 release assignment.
 
+## v0.4.0 - Multi-symbol walk-forward robustness
+
+- Added multi-symbol evaluation report with symbol split.
+- Added top-symbol profit-share robustness check.
+- Added long/short split propagation in multi-symbol output.
+- Added `scripts/run_multi_symbol_walk_forward.py`.
+- Extended CI with multi-symbol smoke check.
+
 ## v0.3.0 - Real data and export contract gates
 
 - Added OHLCV data quality report gate.

@@ -38,9 +38,11 @@ jobs:
 
       - name: Generate sample data
         run: |
-          python scripts/make_sample_data.py \
-            --rows 3500 \
-            --out data/processed/sample_BTCUSDT_5m.csv
+          python scripts/make_sample_data.py --rows 3500 --out data/processed/sample_BTCUSDT_5m.csv
+          cp data/processed/sample_BTCUSDT_5m.csv data/processed/sample_ETHUSDT_5m.csv
+          cp data/processed/sample_BTCUSDT_5m.csv data/processed/sample_SOLUSDT_5m.csv
+          cp data/processed/sample_BTCUSDT_5m.csv data/processed/sample_XRPUSDT_5m.csv
+          cp data/processed/sample_BTCUSDT_5m.csv data/processed/sample_HYPEUSDT_5m.csv
 
       - name: Run no-future-leak smoke check
         run: |
@@ -63,3 +65,11 @@ jobs:
           python scripts/run_export_schema_check.py \
             --csv data/pine_exports/example_export_contract.csv \
             --out reports/parity/example_export_schema.json
+
+      - name: Run multi-symbol robustness smoke check
+        run: |
+          python scripts/run_multi_symbol_walk_forward.py \
+            --strategy amlrx \
+            --config configs/amlrx_v0_1.yaml \
+            --symbol-data BTCUSDT=data/processed/sample_BTCUSDT_5m.csv ETHUSDT=data/processed/sample_ETHUSDT_5m.csv SOLUSDT=data/processed/sample_SOLUSDT_5m.csv XRPUSDT=data/processed/sample_XRPUSDT_5m.csv HYPEUSDT=data/processed/sample_HYPEUSDT_5m.csv \
+            --out reports/walk_forward/multi_symbol_report.json
