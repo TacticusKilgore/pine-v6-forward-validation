@@ -1,0 +1,17 @@
+validation:
+  regime_timeframe: 1h
+  bias_timeframe: 15m
+  setup_timeframe: 5m
+  trigger_timeframe: 3m
+  follow_through_bars: [3, 5, 10]
+  train_bars: 5000
+  test_bars: 1000
+  step_bars: 1000
+costs:
+  maker_fee_bps: 2.0
+  taker_fee_bps: 5.5
+  slippage_bps: 2.0
+safety:
+  confirmed_htf_only: true
+  forbid_centered_rolling: true
+  forbid_negative_shift_features: true

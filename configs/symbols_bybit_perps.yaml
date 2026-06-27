@@ -1,0 +1,19 @@
+exchange: bybit
+market_type: swap
+quote: USDT
+symbols:
+  - id: BTCUSDT
+    ccxt: BTC/USDT:USDT
+    priority: core
+  - id: ETHUSDT
+    ccxt: ETH/USDT:USDT
+    priority: core
+  - id: SOLUSDT
+    ccxt: SOL/USDT:USDT
+    priority: core
+  - id: XRPUSDT
+    ccxt: XRP/USDT:USDT
+    priority: validation
+  - id: HYPEUSDT
+    ccxt: HYPE/USDT:USDT
+    priority: validation
