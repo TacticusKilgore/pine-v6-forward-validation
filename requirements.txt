@@ -1,7 +1,12 @@
+# Base runtime
 pandas>=2.2
 numpy>=1.26
 PyYAML>=6.0
+
+# Local validation / CI
 pytest>=8.0
+
+# Optional integrations
 ccxt>=4.3
 backtrader>=1.9.78.123
 vectorbt>=0.26.0
