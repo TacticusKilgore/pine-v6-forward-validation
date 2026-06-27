@@ -33,7 +33,7 @@ The target market is Bybit USDT perpetuals, with the default stack:
 
 ## Current Version
 
-`v0.2.0` hardens the initial scaffold into a usable local validation base:
+`v0.2.1` hardens the initial scaffold into a usable local validation base and fixes clean CI/package installation:
 
 - strict OHLCV schema normalization
 - data-quality reporting
@@ -43,6 +43,7 @@ The target market is Bybit USDT perpetuals, with the default stack:
 - JSON report writer
 - deterministic sample data generator
 - richer robustness metrics including long/short split
+- clean `pip install -e ".[dev]"` support for GitHub Actions
 
 ## Hard Rules
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.1 - CI packaging hardening
+
+- Added runtime dependencies to `pyproject.toml` so editable installs work in clean environments.
+- Added explicit `dev`, `live`, `replay`, `optimizer` and `all` extras.
+- Updated GitHub Actions to compile sources before tests.
+- Added CI sample-data generation and no-future-leak smoke check.
+- Clarified `requirements.txt` dependency groups.
+
 ## v0.2.0 - Forward-validation hardening
 
 - Added strict OHLCV normalization and data-quality reporting.
