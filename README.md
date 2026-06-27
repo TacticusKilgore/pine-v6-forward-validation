@@ -44,6 +44,29 @@ The target market is Bybit USDT perpetuals, with the default stack:
 - deterministic sample data generator
 - richer robustness metrics including long/short split
 
+## v1.0.0 Release-GO Roadmap
+
+The v1.0.0 target is a release gate framework that returns one of four decisions for a Pine-v6 project: `GO`, `SOFT-GO`, `HOLD`, or `NO-GO`.
+
+The autonomous implementation assignment is tracked in:
+
+```text
+docs/autonomous_agent_assignment_v1_0_0.md
+```
+
+v1.0.0 must include these gates:
+
+- Data Quality Gate
+- Pine Diagnostic Export Gate
+- Pine-vs-Python Parity Gate
+- No-Future-Leak / Repaint Gate
+- MTF Confirmed-Bar Gate
+- Walk-forward Gate
+- Robustness Gate
+- Release Decision Gate
+- CI Gate
+- Documentation Gate
+
 ## Hard Rules
 
 - No lookahead.
@@ -148,6 +171,7 @@ Python parity is valid only when signal time, direction, state, score and levels
 ```text
 configs/       YAML configuration for symbols, models and validation defaults
 data/          raw candles, processed candles and TradingView diagnostic exports
+docs/          release assignments, specs and implementation roadmaps
 src/data/      OHLCV loading, schema validation and resampling
 src/pine_parity/ Pine-compatible indicators, rolling logic, MTF, parity and future-leak checks
 src/strategies/ Python mirrors of Pine projects
