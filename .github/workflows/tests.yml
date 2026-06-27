@@ -49,3 +49,17 @@ jobs:
             --strategy amlrx \
             --config configs/amlrx_v0_1.yaml \
             --warmup-bars 250
+
+      - name: Run data quality smoke check
+        run: |
+          python scripts/run_data_quality.py \
+            --data data/processed/sample_BTCUSDT_5m.csv \
+            --symbol BTCUSDT \
+            --timeframe 5m \
+            --out reports/data_quality/sample_BTCUSDT_5m.json
+
+      - name: Run export schema smoke check
+        run: |
+          python scripts/run_export_schema_check.py \
+            --csv data/pine_exports/example_export_contract.csv \
+            --out reports/parity/example_export_schema.json

@@ -1,0 +1,2 @@
+timestamp,symbol,timeframe,EXP_state,EXP_regime,EXP_bias,EXP_score,EXP_longSignal,EXP_shortSignal,EXP_longBlocker,EXP_shortBlocker,EXP_entryPrice,EXP_stopPrice,EXP_tp1,EXP_tp2,EXP_tp3,EXP_cooldown,EXP_invalidReason
+2026-01-01T00:00:00Z,BTCUSDT,5m,Neutral,Range,Neutral,0,false,false,none,none,0,0,0,0,0,0,none
