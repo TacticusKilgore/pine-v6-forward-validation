@@ -6,6 +6,33 @@ Build, audit, validate and maintain a Pine-v6 forward-validation harness for Byb
 
 The repository is not a generic backtester. Its purpose is to prove that Pine-v6 scripts can be reproduced, optimized and forward-validated in Python without repaint, future leak or hidden parameter overfit.
 
+## Active Release Assignment
+
+The current long-range implementation assignment is:
+
+```text
+docs/autonomous_agent_assignment_v1_0_0.md
+```
+
+Target:
+
+```text
+v1.0.0 = Release-GO Framework
+```
+
+All substantial patches should map to one of these gates:
+
+- Data Gate
+- Pine Export Gate
+- Parity Gate
+- No-Future-Leak Gate
+- MTF Gate
+- Walk-forward Gate
+- Robustness Gate
+- Release Decision Gate
+- CI Gate
+- Documentation Gate
+
 ## Operating Order
 
 1. Diagnose
