@@ -21,6 +21,13 @@ dev = [
 live = [
   "ccxt>=4.3",
 ]
+forward = [
+  "flask>=3.0",
+  "gunicorn>=22.0",
+  "google-cloud-pubsub>=2.21",
+  "google-api-python-client>=2.130",
+  "google-auth>=2.29",
+]
 replay = [
   "backtrader>=1.9.78.123",
 ]
@@ -31,6 +38,11 @@ optimizer = [
 all = [
   "pytest>=8.0",
   "ccxt>=4.3",
+  "flask>=3.0",
+  "gunicorn>=22.0",
+  "google-cloud-pubsub>=2.21",
+  "google-api-python-client>=2.130",
+  "google-auth>=2.29",
   "backtrader>=1.9.78.123",
   "vectorbt>=0.26.0",
   "numba>=0.59",
@@ -45,7 +57,8 @@ packages = [
   "src.engine",
   "src.optimizers",
   "src.replay",
-  "src.reports"
+  "src.reports",
+  "src.forward_logging",
 ]
 
 [tool.pytest.ini_options]
