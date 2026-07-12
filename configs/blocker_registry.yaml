@@ -1,0 +1,13 @@
+blockers:
+  NONE: signal not blocked
+  REGIME: regime gate failed
+  BIAS: directional bias failed
+  LIQUIDITY: liquidity condition failed
+  VOLATILITY: volatility gate failed
+  TOXICITY: microstructure toxicity gate failed
+  SLIPPAGE_RISK: synthetic slippage-at-risk gate failed
+  LIQUIDITY_VACUUM: liquidity-vacuum gate failed
+  SESSION: session gate failed
+  FRESHNESS: signal freshness failed
+  LTF_NO_DATA: lower-timeframe sample unavailable
+  SYMBOL_GUARD: symbol-specific guard failed
