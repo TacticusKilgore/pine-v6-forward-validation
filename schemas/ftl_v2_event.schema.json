@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/ftl_v2_event.schema.json",
+  "title": "FTL_V2 Forward Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "event_id", "correlation_id", "run_id", "build_id",
+    "event_type", "event_time_utc", "bar_time_utc", "symbol", "timeframe",
+    "direction", "sequence", "payload"
+  ],
+  "properties": {
+    "schema_version": {"const": "FTL_V2"},
+    "event_id": {"type": "string", "minLength": 16},
+    "correlation_id": {"type": "string", "minLength": 8},
+    "run_id": {"type": "string", "minLength": 3},
+    "build_id": {"type": "string", "minLength": 3},
+    "event_type": {
+      "enum": [
+        "CONFIG_START", "HEARTBEAT", "SIGNAL_CANDIDATE", "SIGNAL_VALID",
+        "SIGNAL_BLOCKED", "ENTRY_INTENT", "ORDER_FILLED", "INVALIDATION",
+        "TARGET_HIT", "EXIT", "SIGNAL_EXPIRED", "RUNTIME_ERROR"
+      ]
+    },
+    "event_time_utc": {"type": "string", "format": "date-time"},
+    "bar_time_utc": {"type": "string", "format": "date-time"},
+    "symbol": {"type": "string"},
+    "timeframe": {"type": "string"},
+    "direction": {"enum": ["LONG", "SHORT", "NONE"]},
+    "sequence": {"type": "integer", "minimum": 0},
+    "payload": {"type": "object"}
+  }
+}

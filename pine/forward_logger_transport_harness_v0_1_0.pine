@@ -1,0 +1,43 @@
+//@version=6
+indicator("FTL_V2 Forward Logger Transport Harness v0.1.0", overlay=true, max_labels_count=20)
+
+string groupRun = "A) Forward Run"
+string runId = input.string("FTL2-20260712-R01", "Run ID", group=groupRun)
+string buildId = input.string("transport-harness-v0.1.0", "Build ID", group=groupRun)
+int heartbeatBars = input.int(12, "Heartbeat interval bars", minval=1, group=groupRun)
+
+string groupCore = "B) Harness Signal"
+int emaLength = input.int(9, "EMA length", minval=1, group=groupCore)
+
+float ema9 = ta.ema(close, emaLength)
+bool newDay = ta.change(time("D")) != 0
+var float twapSum = na
+var int twapCount = 0
+if barstate.isfirst or newDay
+    twapSum := hlc3
+    twapCount := 1
+else
+    twapSum += hlc3
+    twapCount += 1
+float twap = twapSum / math.max(twapCount, 1)
+
+bool longSignal = barstate.isconfirmed and ta.crossover(ema9, twap)
+bool shortSignal = barstate.isconfirmed and ta.crossunder(ema9, twap)
+bool heartbeat = barstate.isconfirmed and bar_index % heartbeatBars == 0
+
+f_iso(int ts) => str.format_time(ts, "yyyy-MM-dd'T'HH:mm:ss'Z'", "UTC")
+f_id(string eventType, string direction) => runId + "-" + buildId + "-" + syminfo.tickerid + "-" + timeframe.period + "-" + str.tostring(time_close) + "-" + eventType + "-" + direction
+f_payload(string eventType, string direction) =>
+    string eventId = f_id(eventType, direction)
+    string payload = '"ema9":' + str.tostring(ema9) + ',"twap":' + str.tostring(twap) + ',"close":' + str.tostring(close) + ',"regime":"TRANSPORT_TEST","signal_state":"' + eventType + '"'
+    '{"schema_version":"FTL_V2","event_id":"' + eventId + '","correlation_id":"' + eventId + '","run_id":"' + runId + '","build_id":"' + buildId + '","event_type":"' + eventType + '","event_time_utc":"' + f_iso(timenow) + '","bar_time_utc":"' + f_iso(time_close) + '","symbol":"' + syminfo.tickerid + '","timeframe":"' + timeframe.period + '","direction":"' + direction + '","sequence":0,"payload":{' + payload + '}}'
+
+if longSignal
+    alert(f_payload("SIGNAL_VALID", "LONG"), alert.freq_once_per_bar_close)
+if shortSignal
+    alert(f_payload("SIGNAL_VALID", "SHORT"), alert.freq_once_per_bar_close)
+if heartbeat and not longSignal and not shortSignal
+    alert(f_payload("HEARTBEAT", "NONE"), alert.freq_once_per_bar_close)
+
+plot(ema9, "EMA9")
+plot(twap, "Session TWAP")
