@@ -1,15 +1,32 @@
 .venv/
+venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
 *.egg-info/
-data/raw/*.csv
-data/processed/*.csv
-data/pine_exports/*.csv
+
+# Local credentials and environment files
+.env
+.env.*
+!.env.example
+
+# Generated local datasets and TradingView exports (including nested paths)
+data/raw/**/*.csv
+data/processed/**/*.csv
+data/pine_exports/**/*.csv
+
+# Generated reports
 reports/**/*.csv
 reports/**/*.json
 reports/**/*.txt
-.env
+
+# Coverage, build and operating-system artifacts
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+build/
+dist/
 .DS_Store
